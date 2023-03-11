@@ -1,17 +1,7 @@
 openapi: 3.0.3
 info:
-  title: Swagger Petstore - OpenAPI 3.0
-  description: |-
-    This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about
-    Swagger at [https://swagger.io](https://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!
-    You can now help us improve the API whether it's by making changes to the definition itself or to the code.
-    That way, with time, we can improve the API in general, and expose some of the new features in OAS3.
-
-    _If you're looking for the Swagger 2.0/OAS 2.0 version of Petstore, then click [here](https://editor.swagger.io/?url=https://petstore.swagger.io/v2/swagger.yaml). Alternatively, you can load via the `Edit > Load Petstore OAS 2.0` menu option!_
-    
-    Some useful links:
-    - [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)
-    - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
+  title: Swagger UniVerse
+  description: ''
   termsOfService: http://swagger.io/terms/
   contact:
     email: apiteam@swagger.io
@@ -23,18 +13,8 @@ externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
-  - url: https://petstore3.swagger.io/api/v3
+  - url: ''
 tags:
-  - name: pet
-    description: Everything about your Pets
-    externalDocs:
-      description: Find out more
-      url: http://swagger.io
-  - name: store
-    description: Access to Petstore orders
-    externalDocs:
-      description: Find out more about our store
-      url: http://swagger.io
   - name: user
     description: Operations about user
 paths:
@@ -129,9 +109,6 @@ paths:
                 format: date-time
           content:
            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/User'
         '400':
@@ -279,7 +256,7 @@ paths:
   /event/{eventId}:
     get:
       tags:
-        - user
+        - event
       summary: Get event by eventId
       description: ''
       operationId: getEventById
@@ -337,7 +314,7 @@ paths:
         - event
       summary: Delete event
       description: This can only be done by the logged in user.
-      operationId: deleteUser
+      operationId: deleteEvent
       parameters:
         - name: eventId
           in: path
@@ -355,21 +332,14 @@ paths:
       tags:
         - event
       summary: Fetch Event by criteria
-      operationId: createEvent
+      operationId: fetchEvent by criteria
       requestBody:
         content:
           application/json:
             schema:
               type: array
               items: 
-                schema:
-                  type: object
-                  properties:
-                    criteria:
-                      type: string
-                      example: organizerId / location/ date/ attendeeId / tags
-                    values:
-                      type: object
+                $ref: '#/components/schemas/Criteria'
       responses:
         default:
           description: successful operation
@@ -386,7 +356,7 @@ paths:
         - comment
       summary: Create Comment
       description: This can only be done by the logged in user.
-      operationId: createEvent
+      operationId: createComment
       requestBody:
         description: Created user object
         content:
@@ -406,7 +376,7 @@ paths:
   /comment/createWithList:
     post:
       tags:
-        - commment
+        - comment
       summary: Creates list of commment with given input array
       description: Creates list of comment with given input array
       operationId: createCommentWithListInput
@@ -425,13 +395,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Comments'          
+                  $ref: '#/components/schemas/Comment'          
         default:
           description: successful operation
   /comment/{commentId}:
     get:
       tags:
-        - commment
+        - comment
       summary: Get comment by eventId
       description: ''
       operationId: getCommentById
@@ -458,7 +428,7 @@ paths:
           description: Event not found
     put:
       tags:
-        - Comment
+        - comment
       summary: Update Comment
       description: This can only be done by the logged in user.
       operationId: updateComment
@@ -486,7 +456,7 @@ paths:
           description: successful operation
     delete:
       tags:
-        - Comment
+        - comment
       summary: Delete Comment
       description: This can only be done by the logged in user.
       operationId: CommentDelete
@@ -507,21 +477,14 @@ paths:
       tags:
         - comment
       summary: Fetch Comments by Ids
-      operationId: createEvent
+      operationId: fetchComments
       requestBody:
         content:
           application/json:
             schema:
               type: array
               items: 
-                schema:
-                  type: object
-                  properties:
-                    criteria:
-                      type: string
-                      example: eventId / authorId(userId)
-                    values:
-                      type: string
+                $ref: '#/components/schemas/Criteria'
       responses:
         default:
           description: successful operation
@@ -530,7 +493,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Commment'
+                  $ref: '#/components/schemas/Comment'
 
   /recommendation:
     post:
@@ -612,15 +575,8 @@ paths:
           application/json:
             schema:
               type: array
-              $ref: '#/components/schemas/Recommendation'
-          application/xml:
-            schema:
-              type: array
-              $ref: '#/components/schemas/Recommendation'
-          application/x-www-form-urlencoded:
-            schema:
-              type: array
-              $ref: '#/components/schemas/Recommendation'
+              items:
+                $ref: '#/components/schemas/Recommendation'
       responses:
         default:
           description: successful operation
@@ -717,7 +673,7 @@ paths:
         - livestream
       summary: Delete livestream
       description: This would convert the livestream of the eventId into a video for later viewing.
-      operationId: deleteUser
+      operationId: deleteLiveStream
       parameters:
         - name: eventId
           in: path
@@ -768,7 +724,7 @@ paths:
       description: ''
       operationId: getEventContentsByEventId
       parameters:
-        - name: userId
+        - name: eventId
           in: path
           description: 'The event for which the eventcontents are to be fetched'
           required: true
@@ -794,12 +750,12 @@ paths:
           description: Events not found
     put:
       tags:
-        - recommendations
+        - eventcontents
       summary: Update recommendations
-      description: Bulk update the set of event recommendations for the userId.
-      operationId: updateRecommendationsByuserId
+      description: Bulk update the set of event content for the eventId.
+      operationId: updateEventContentByEventId
       parameters:
-        - name: userId
+        - name: eventId
           in: path
           description: userId for which the recommendations are to be updated
           required: true
@@ -812,17 +768,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/Recommendation'
-          application/xml:
-            schema:
-              type: array
-              items: 
-                $ref: '#/components/schemas/Recommendation'
-          application/x-www-form-urlencoded:
-            schema:
-              type: array
-              items: 
-                $ref: '#/components/schemas/Recommendation'
+                $ref: '#/components/schemas/EventContent'
       responses:
         default:
           description: successful operation
@@ -831,7 +777,7 @@ paths:
         - eventcontents
       summary: Delete all eventcontents by this eventId
       description: Deletes all eventcontents associated with this eventId.
-      operationId: deleteUser
+      operationId: delete event Contents
       parameters:
         - name: eventId
           in: path
@@ -847,6 +793,22 @@ paths:
 
 components:
   schemas:
+    Recommendation:
+      type: object
+      properties:
+        eventId:
+          type: string
+          example: K2dqRTEsWywADM4GacbKISlLrtRh9bPW
+        content:
+          type: string
+    Criteria:
+      type: object
+      properties:
+        criteria:
+          type: string
+          example: organizerId / location/ date/ attendeeId / tags
+        values:
+          type: object
     TimeStamp:
       type: object
       properties:
@@ -1004,7 +966,7 @@ components:
       xml:
         name: liveStream
     EventContent:
-    type: object
+      type: object
       properties:
         id:
           type: integer
@@ -1028,15 +990,6 @@ components:
       xml:
         name: '##default'
   requestBodies:
-    Pet:
-      description: Pet object that needs to be added to the store
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Pet'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/Pet'
     UserArray:
       description: List of user object
       content:
