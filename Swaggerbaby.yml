@@ -922,6 +922,10 @@ components:
         id:
           type: string
           example: K2dqRTEsWywADM4GacbKISlLrtRh9bPW
+        attendees:
+          type: array
+          items: 
+            type: string
         title:
           type: string
           example: Carleton Common EGSC Social
@@ -948,7 +952,10 @@ components:
         content:
           type: string
           example: Your EGSC Event has started
-        userId:
+        fromUserId:
+          type: string
+          example: K2dqRTEsWywADM4GacbKISlLrtRh9bPW
+        toUserId:
           type: string
           example: K2dqRTEsWywADM4GacbKISlLrtRh9bPW
       xml:
