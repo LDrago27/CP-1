@@ -401,11 +401,13 @@ paths:
             application/json:
               schema:
                 type: array
-                $ref: '#/components/schemas/Recommendation'          
+                items:
+                  $ref: '#/components/schemas/Recommendation'          
             application/xml:
               schema:
                 type: array
-                $ref: '#/components/schemas/Recommendation'
+                items: 
+                  $ref: '#/components/schemas/Recommendation'
         '400':
           description: Invalid userId supplied
         '404':
@@ -598,11 +600,13 @@ paths:
             application/json:
               schema:
                 type: array
-                $ref: '#/components/schemas/EventContent'          
+                items:
+                  $ref: '#/components/schemas/EventContent'          
             application/xml:
               schema:
                 type: array
-                $ref: '#/components/schemas/EventContent'
+                items:
+                  $ref: '#/components/schemas/EventContent'
         '400':
           description: Invalid eventId supplied
         '404':
@@ -626,15 +630,18 @@ paths:
           application/json:
             schema:
               type: array
-              $ref: '#/components/schemas/Recommendation'
+              items:
+                $ref: '#/components/schemas/Recommendation'
           application/xml:
             schema:
               type: array
-              $ref: '#/components/schemas/Recommendation'
+              items: 
+                $ref: '#/components/schemas/Recommendation'
           application/x-www-form-urlencoded:
             schema:
               type: array
-              $ref: '#/components/schemas/Recommendation'
+              items: 
+                $ref: '#/components/schemas/Recommendation'
       responses:
         default:
           description: successful operation
