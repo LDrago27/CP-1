@@ -349,7 +349,31 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Event'
-
+  /event/fetchAllDetails/{eventId}:
+    get:
+      tags:
+        - event
+      summary: Get all event details (comments, content, livestream) by eventId
+      description: ''
+      operationId: getEventDetailsById
+      parameters:
+        - name: eventId
+          in: path
+          description: 'The Id that needs to be fetched'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Invalid eventId supplied
+        '404':
+          description: Event not found
   /commment:
     post:
       tags:
@@ -899,6 +923,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Tag'
+        savedEvents:
+          type: array
+          description: array of event ids saved by user 
+          items:
+            type: string
+            example: K2dqRTEsWywADM4GacbKISlLrtRh9bPW
       xml:
         name: user
     Tag:
