@@ -351,6 +351,312 @@ paths:
         '404':
           description: User not found
 
+  /recommendation:
+    post:
+      tags:
+        - recommendation
+      summary: Create recommendation
+      description: This is done whenever the user completes a session, to pre-compute recommendations based on history before new login.
+      operationId: createRecommendation
+      requestBody:
+        description: Created recommendation object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Recommendation'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Recommendation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Recommendation'
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recommendation'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Recommendation'
+  /recommendations/{userId}:
+    get:
+      tags:
+        - recommendations
+      summary: Get recommendations by userId
+      description: ''
+      operationId: getRecommendationsByUserId
+      parameters:
+        - name: userId
+          in: path
+          description: 'The userId for which the recommendations are to be fetched'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: '#/components/schemas/Recommendation'          
+            application/xml:
+              schema:
+                type: array
+                $ref: '#/components/schemas/Recommendation'
+        '400':
+          description: Invalid userId supplied
+        '404':
+          description: User not found
+    put:
+      tags:
+        - recommendations
+      summary: Update recommendations
+      description: Bulk update the set of event recommendations for the userId.
+      operationId: updateRecommendationsByuserId
+      parameters:
+        - name: userId
+          in: path
+          description: userId for which the recommendations are to be updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent user recommendations
+        content:
+          application/json:
+            schema:
+              type: array
+              $ref: '#/components/schemas/Recommendation'
+          application/xml:
+            schema:
+              type: array
+              $ref: '#/components/schemas/Recommendation'
+          application/x-www-form-urlencoded:
+            schema:
+              type: array
+              $ref: '#/components/schemas/Recommendation'
+      responses:
+        default:
+          description: successful operation
+    
+  /notification:
+    post:
+      tags:
+        - notification
+      summary: Create a push notification
+      description: A new push notification will be created to show to the user.
+      operationId: createNotification
+      requestBody:
+        description: Created notification object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notification'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Notification'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Notification'
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Notification'
+
+  /livestream:
+    post:
+      tags:
+        - livestream
+      summary: Create a new livestream
+      description: Creates a new livestream object when an event organizer starts a livestream.
+      operationId: createLiveStream
+      requestBody:
+        description: Created livestream object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LiveStream'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/LiveStream'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LiveStream'
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveStream'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LiveStream'
+  /livestream/{eventId}:
+    get:
+      tags:
+        - livestream
+      summary: Get livestream by eventId
+      description: 'Get the livestream feed for the attendee who checks an event they register for'
+      operationId: getLiveStreamByEventId
+      parameters:
+        - name: eventId
+          in: path
+          description: 'The eventId for which the livestream is to be fetched'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveStream'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LiveStream'
+        '400':
+          description: Invalid eventId supplied
+        '404':
+          description: Event not found
+    delete:
+      tags:
+        - livestream
+      summary: Delete livestream
+      description: This would convert the livestream of the eventId into a video for later viewing.
+      operationId: deleteUser
+      parameters:
+        - name: eventId
+          in: path
+          description: The eventId whose livestream is to be stopped
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid eventId supplied
+        '404':
+          description: Event not found
+
+  /eventcontent:
+    post:
+      tags:
+        - eventcontent
+      summary: Create eventcontent
+      description: Creates media (pictures, docs, videos) which is associated with an event.
+      operationId: createEventContent
+      requestBody:
+        description: Created eventcontent object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventContent'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/EventContent'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EventContent'
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventContent'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/EventContent'
+  /eventcontents/{eventId}:
+    get:
+      tags:
+        - eventcontents
+      summary: Get eventcontents by eventId
+      description: ''
+      operationId: getEventContentsByEventId
+      parameters:
+        - name: userId
+          in: path
+          description: 'The event for which the eventcontents are to be fetched'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: '#/components/schemas/EventContent'          
+            application/xml:
+              schema:
+                type: array
+                $ref: '#/components/schemas/EventContent'
+        '400':
+          description: Invalid eventId supplied
+        '404':
+          description: Events not found
+    put:
+      tags:
+        - recommendations
+      summary: Update recommendations
+      description: Bulk update the set of event recommendations for the userId.
+      operationId: updateRecommendationsByuserId
+      parameters:
+        - name: userId
+          in: path
+          description: userId for which the recommendations are to be updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent user recommendations
+        content:
+          application/json:
+            schema:
+              type: array
+              $ref: '#/components/schemas/Recommendation'
+          application/xml:
+            schema:
+              type: array
+              $ref: '#/components/schemas/Recommendation'
+          application/x-www-form-urlencoded:
+            schema:
+              type: array
+              $ref: '#/components/schemas/Recommendation'
+      responses:
+        default:
+          description: successful operation
+    delete:
+      tags:
+        - eventcontents
+      summary: Delete all eventcontents by this eventId
+      description: Deletes all eventcontents associated with this eventId.
+      operationId: deleteUser
+      parameters:
+        - name: eventId
+          in: path
+          description: The eventId that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid eventId supplied
+        '404':
+          description: Event not found
+ 
 components:
   schemas:
     TimeStamp:
@@ -510,7 +816,7 @@ components:
       xml:
         name: liveStream
     EventContent:
-    type: object
+      type: object
       properties:
         id:
           type: integer
